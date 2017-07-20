@@ -1,15 +1,25 @@
 {
-  "name": "mvc-blog",
+  "name": "08-sql-and-postgres",
   "version": "1.0.0",
-  "description": "As we now complete our MVC conversation, we can refactor our app to use good MVC separation of concerns.",
-  "main": "server.js",
+  "description": "![CF](https://i.imgur.com/7v5ASc8.png)  Lab 08: SQL and Postgres ======= [Code of Conduct](https://github.com/codefellows/code-of-conduct)",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Code Fellows",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chaitanyanarukulla/08-sql-and-postgres.git"
+  },
+  "keywords": [],
+  "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chaitanyanarukulla/08-sql-and-postgres/issues"
+  },
+  "homepage": "https://github.com/chaitanyanarukulla/08-sql-and-postgres#readme",
   "dependencies": {
-    "express": "^4.13.3",
+    "express": "^4.15.3",
+    "pg": "^7.0.1",
     "body-parser": "^1.17.1"
   }
 }
