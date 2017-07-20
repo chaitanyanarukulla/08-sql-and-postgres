@@ -1,6 +1,6 @@
 'use strict';
 
-function Article (rawDataObj) {
+function Article(rawDataObj) {
   /* REVIEW: This is a new construct to save all the properties of rawDataObj into our newly
 instantiated object. Object.keys is a function that returns an array of all the properties
 of an object as strings. forEach is an array method that iterates over and calls a function on
@@ -24,7 +24,7 @@ Article.all = [];
 Article.prototype.toHtml = function() {
   var template = Handlebars.compile($('#article-template').text());
 
-  this.daysAgo = parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000);
+  this.daysAgo = parseInt((new Date() - new Date(this.publishedOn)) / 60 / 60 / 24 / 1000);
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
   this.body = marked(this.body);
 
@@ -33,7 +33,7 @@ Article.prototype.toHtml = function() {
 
 // REVIEW: Refactor the parameter to expect the data from the database, rather than a local file.
 Article.loadAll = function(rows) {
-  rows.sort(function(a,b) {
+  rows.sort(function(a, b) {
     return (new Date(b.publishedOn)) - (new Date(a.publishedOn));
   });
 
@@ -49,62 +49,69 @@ Article.fetchAll = function(callback) {
   // })
 
   $.get('/articles')
-  .then(
-    function(results) {
-      // REVIEW: Call loadAll, and pass in the results, then invoke the callback.
-      Article.loadAll(results);
-      callback();
-    }
-  )
+    .then(
+      function(results) {
+        // REVIEW: Call loadAll, and pass in the results, then invoke the callback.
+        Article.loadAll(results);
+        callback();
+      }
+    )
 };
 
 
 // REVIEW: Take a few minutes and review what each of these new methods do in relation to our server and DB
 Article.truncateTable = function(callback) {
   $.ajax({
-    url: '/articles',
-    method: 'DELETE',
-  })
-  .then(function(data) {
-    console.log(data);
-    if (callback) callback();
-  });
+      url: '/articles',
+      method: 'DELETE',
+    })
+    .then(function(data) {
+      console.log(data);
+      if (callback) callback();
+    });
 };
 
 Article.prototype.insertRecord = function(callback) {
-  $.post('/articles', {author: this.author, authorUrl: this.authorUrl, body: this.body, category: this.category, publishedOn: this.publishedOn, title: this.title})
-  .then(function(data) {
-    console.log(data);
-    if (callback) callback();
-  })
-};
-
-Article.prototype.deleteRecord = function(callback) {
-  $.ajax({
-    url: `/articles/${this.article_id}`,
-    method: 'DELETE'
-  })
-  .then(function(data) {
-    console.log(data);
-    if (callback) callback();
-  });
-};
-
-Article.prototype.updateRecord = function(callback) {
-  $.ajax({
-    url: `/articles/${this.article_id}`,
-    method: 'PUT',
-    data: {
+  $.post('/articles', {
       author: this.author,
       authorUrl: this.authorUrl,
       body: this.body,
       category: this.category,
       publishedOn: this.publishedOn,
       title: this.title
-    }
-  })
-  .then(function(data) {
-    console.log(data);
-    if (callback) callback();
-  });
+    })
+    .then(function(data) {
+      console.log(data);
+      if (callback) callback();
+    })
+};
+
+Article.prototype.deleteRecord = function(callback) {
+  $.ajax({
+      url: `/articles/${this.article_id}`,
+      method: 'DELETE'
+    })
+    .then(function(data) {
+      console.log(data);
+      if (callback) callback();
+    });
+};
+
+Article.prototype.updateRecord = function(callback) {
+  $.ajax({
+      url: `/articles/${this.article_id}`,
+      method: 'PUT',
+      data: {
+        author: this.author,
+        authorUrl: this.authorUrl,
+        body: this.body,
+        category: this.category,
+        publishedOn: this.publishedOn,
+        title: this.title
+      }
+    })
+    .then(function(data) {
+      console.log(data);
+      if (callback) callback();
+    });
 };
